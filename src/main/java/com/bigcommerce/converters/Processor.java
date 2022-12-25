@@ -8,6 +8,7 @@ import com.bigcommerce.beans.BeanConfigs;
 import com.bigcommerce.beans.CsvBean;
 import com.bigcommerce.beans.NamedColumnInputBean;
 import com.bigcommerce.helpers.Helpers;
+import com.bigcommerce.business.rules.*;
 
 public class Processor {
 
@@ -22,7 +23,16 @@ public class Processor {
 	public static void main(String[] args) throws Exception {
 		List<CsvBean> csvBeans = namedSyncColumnBeanExample();
 		System.out.println(csvBeans.size());
+		BusinessRules businessRules = new BusinessRules();
+		List<CsvBean> outputCsvBean = businessRules.processInput(csvBeans);
+		writeSyncCsvFromBean(outputCsvBean);
 
 	}
+	
+	public static String writeSyncCsvFromBean(List<CsvBean> csvBeans) throws Exception {
+        Path path = Helpers.fileOutBeanPath();
+        return BeanConfigs.writeCsvFromBean(path, csvBeans);
+    }
+	
 
 }

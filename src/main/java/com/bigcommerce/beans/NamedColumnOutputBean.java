@@ -2,7 +2,7 @@ package com.bigcommerce.beans;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class NamedColumnInputBean extends CsvBean {
+public class NamedColumnOutputBean extends CsvBean{
 
 	@CsvBindByName(column = "Item Typle")
 	private String itemType;
@@ -150,12 +150,12 @@ public class NamedColumnInputBean extends CsvBean {
 
 	@CsvBindByName(column = "GPS Age Group")
 	private String gpsAgeGroup;
-	
-	@CsvBindByName(column = "GPS Color")
-	private String gpsColor;
 
 	@CsvBindByName(column = "GPS Size")
 	private String gpsSize;
+	
+	@CsvBindByName(column = "GPS Color")
+	private String gpsColor;
 
 	@CsvBindByName(column = "GPS Material")
 	private String gpsMaterial;
@@ -177,15 +177,6 @@ public class NamedColumnInputBean extends CsvBean {
 
 	@CsvBindByName(column = "Product Custom Fields")
 	private String productCustomFields;
-	
-	@CsvBindByName(column = "Weight Type")
-	private String weightType;
-	
-	@CsvBindByName(column = "Weight")
-	private String weight;
-	
-	@CsvBindByName(column = "Range")
-	private String range;
 
 	public String getItemType() {
 		return itemType;
@@ -211,20 +202,20 @@ public class NamedColumnInputBean extends CsvBean {
 		this.productName = productName;
 	}
 
-	public String getProductCodeSKU() {
-		return productCodeSKU;
-	}
-
-	public void setProductCodeSKU(String productCodeSKU) {
-		this.productCodeSKU = productCodeSKU;
-	}
-
 	public String getProductType() {
 		return productType;
 	}
 
 	public void setProductType(String productType) {
 		this.productType = productType;
+	}
+
+	public String getProductCodeSKU() {
+		return productCodeSKU;
+	}
+
+	public void setProductCodeSKU(String productCodeSKU) {
+		this.productCodeSKU = productCodeSKU;
 	}
 
 	public String getBinPickingNumber() {
@@ -643,30 +634,6 @@ public class NamedColumnInputBean extends CsvBean {
 		this.productCustomFields = productCustomFields;
 	}
 
-	public String getWeightType() {
-		return weightType;
-	}
-
-	public void setWeightType(String weightType) {
-		this.weightType = weightType;
-	}
-
-	public String getWeight() {
-		return weight;
-	}
-
-	public void setWeight(String weight) {
-		this.weight = weight;
-	}
-
-	public String getRange() {
-		return range;
-	}
-
-	public void setRange(String range) {
-		this.range = range;
-	}
-
 	public String getGpsColor() {
 		return gpsColor;
 	}
@@ -676,5 +643,6 @@ public class NamedColumnInputBean extends CsvBean {
 	}
 	
 	
-
+	
+	
 }

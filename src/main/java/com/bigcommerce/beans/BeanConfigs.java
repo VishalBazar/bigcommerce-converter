@@ -1,13 +1,19 @@
 package com.bigcommerce.beans;
 
+import java.io.FileWriter;
 import java.io.Reader;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
+import com.bigcommerce.helpers.Helpers;
 import com.bigcommerce.pojos.CsvTransfer;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
 public class BeanConfigs {
 
@@ -21,5 +27,24 @@ public class BeanConfigs {
 
 		return csvTransfer.getCsvList();
 	}
+	
+	public static String writeCsvFromBean(Path path, List<CsvBean> csvBeans) throws Exception {
+
+        List<CsvBean> sampleData = Arrays.asList(
+            //new WriteExampleBean("Test1", "sample", "data"),
+            //new WriteExampleBean("Test2", "ipso", "facto")
+        );
+
+        try (Writer writer = new FileWriter(path.toString())) {
+            StatefulBeanToCsv<CsvBean> sbc = new StatefulBeanToCsvBuilder<CsvBean>(writer)
+              //.withQuotechar('\'')
+              .withSeparator(',')
+              .build();
+
+            sbc.write(sampleData);
+        }
+
+        return Helpers.readFile(path);
+    }
 
 }
