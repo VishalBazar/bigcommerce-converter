@@ -16,8 +16,11 @@ public class Helpers {
 	}
 	
 	public static Path fileOutBeanPath() throws URISyntaxException {
-        URI uri = ClassLoader.getSystemResource(FileConstants.OUTPUT_CSV_FILE).toURI();
-        return Paths.get(uri);
+        //URI uri = ClassLoader.getSystemResource(FileConstants.OUTPUT_CSV_FILE).toURI();
+        
+        Path path = Paths.get("/Users/wps/Desktop/Output.csv");
+        
+        		return path;
     }
 	
 	@SuppressWarnings("deprecation")

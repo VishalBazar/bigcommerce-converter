@@ -4,7 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 
 public class NamedColumnOutputBean extends CsvBean{
 
-	@CsvBindByName(column = "Item Typle")
+	@CsvBindByName(column = "Item Type")
 	private String itemType;
 
 	@CsvBindByName(column = "Product ID")

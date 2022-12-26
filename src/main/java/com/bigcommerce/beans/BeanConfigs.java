@@ -28,12 +28,7 @@ public class BeanConfigs {
 		return csvTransfer.getCsvList();
 	}
 	
-	public static String writeCsvFromBean(Path path, List<CsvBean> csvBeans) throws Exception {
-
-        List<CsvBean> sampleData = Arrays.asList(
-            //new WriteExampleBean("Test1", "sample", "data"),
-            //new WriteExampleBean("Test2", "ipso", "facto")
-        );
+	public static void writeCsvFromBean(Path path, List<CsvBean> csvBeans) throws Exception {
 
         try (Writer writer = new FileWriter(path.toString())) {
             StatefulBeanToCsv<CsvBean> sbc = new StatefulBeanToCsvBuilder<CsvBean>(writer)
@@ -41,10 +36,9 @@ public class BeanConfigs {
               .withSeparator(',')
               .build();
 
-            sbc.write(sampleData);
+            sbc.write(csvBeans);
         }
 
-        return Helpers.readFile(path);
     }
 
 }

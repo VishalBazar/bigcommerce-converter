@@ -1,7 +1,12 @@
 package com.bigcommerce.transformers;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.bigcommerce.beans.CsvBean;
 import com.bigcommerce.beans.NamedColumnInputBean;
 import com.bigcommerce.beans.NamedColumnOutputBean;
 
@@ -81,9 +86,55 @@ public class Transformers {
 		
 	}
 
-	public static List<NamedColumnOutputBean> createSkus(NamedColumnInputBean inputBean) {
-		// TODO Auto-generated method stub
-		return null;
+	public static List<NamedColumnOutputBean> createSkus(String productId, String range) {
+		List<String> ranges = new ArrayList<>(Arrays.asList(range.split(",")));
+		List<NamedColumnOutputBean> skus = new ArrayList<>();
+		//create Skus
+		for(String weight: ranges) {
+			NamedColumnOutputBean sku = new NamedColumnOutputBean();
+			sku.setItemType("SKU");
+			sku.setProductName("[S]Weight lb="+weight+" LB");
+			sku.setProductCodeSKU(productId+"-"+weight+"L");
+			skus.add(sku);			
+		}
+		
+		return skus;
 	}
+	
+	public static List<NamedColumnOutputBean> createRules(String productId, String range, BigDecimal unitPrice){
+		List<String> ranges = new ArrayList<>(Arrays.asList(range.split(",")));
+		List<NamedColumnOutputBean> rules = new ArrayList<>();
+		
+		//create rules
+		for(String weight: ranges) {
+			NamedColumnOutputBean rule = new NamedColumnOutputBean();
+			rule.setItemType("Rule");
+			rule.setProductCodeSKU(productId+"-"+weight+"L");
+			BigDecimal priceBasedOnWeight  = unitPrice.multiply(new BigDecimal(weight));
+			rule.setPrice("[FIXED]"+convertTo99Cents(priceBasedOnWeight));
+			rules.add(rule);			
+		}
+		
+		return rules;
+		
+	}
+	
+	private static String convertTo99Cents(BigDecimal price) {
+		return price.setScale(0, BigDecimal.ROUND_HALF_UP).subtract(new BigDecimal("0.01")).toString();
+
+		
+	}
+	
+//	public static void main(String[] args) {
+//		BigDecimal price = new BigDecimal("12.61");
+//		
+//		//price.setScale(2, BigDecimal.ROUND_CEILING);
+//		
+//		
+//		System.out.println(price.setScale(0, BigDecimal.ROUND_HALF_UP).subtract(new BigDecimal("0.01")));
+//		
+//		
+//		
+//	}
 
 }

@@ -26,12 +26,14 @@ public class Processor {
 		BusinessRules businessRules = new BusinessRules();
 		List<CsvBean> outputCsvBean = businessRules.processInput(csvBeans);
 		writeSyncCsvFromBean(outputCsvBean);
+		
+		System.out.println("The process is complete");
 
 	}
 	
-	public static String writeSyncCsvFromBean(List<CsvBean> csvBeans) throws Exception {
+	public static void writeSyncCsvFromBean(List<CsvBean> csvBeans) throws Exception {
         Path path = Helpers.fileOutBeanPath();
-        return BeanConfigs.writeCsvFromBean(path, csvBeans);
+        BeanConfigs.writeCsvFromBean(path, csvBeans);
     }
 	
 

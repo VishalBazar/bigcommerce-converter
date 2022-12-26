@@ -21,22 +21,27 @@ public class BusinessRules {
 			}
 			
 		}		
-		return csvBeans;
+		return outputCsvBeans;
 		
 	}
 	
 	
 	private List<NamedColumnOutputBean> processWeightTypeLB(NamedColumnInputBean inputBean){
+		List<NamedColumnOutputBean> productListWithRulesSkus = new ArrayList<>();
 		
 		BigDecimal price = new BigDecimal(inputBean.getPrice()); 
 		BigDecimal weight = new BigDecimal(inputBean.getWeight());
-		BigDecimal unitPrice = price.divide(weight);
+		BigDecimal unitPrice = price.divide(weight, 2, BigDecimal.ROUND_HALF_UP);
+		
 		
 		NamedColumnOutputBean primaryProduct = Transformers.convertMainProduct(inputBean);
-		List<NamedColumnOutputBean> createSkus = Transformers.createSkus(inputBean);
+		productListWithRulesSkus.add(primaryProduct);
+		List<NamedColumnOutputBean> createSkus = Transformers.createSkus(inputBean.getProductId(), inputBean.getRange());
+		productListWithRulesSkus.addAll(createSkus);
+		List<NamedColumnOutputBean> createRules = Transformers.createRules(inputBean.getProductId(), inputBean.getRange(), unitPrice);
+		productListWithRulesSkus.addAll(createRules);
 		
-		
-		return null;
+		return productListWithRulesSkus;
 		
 	}
 
