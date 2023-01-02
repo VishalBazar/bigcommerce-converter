@@ -1,12 +1,10 @@
 package com.bigcommerce.transformers;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.bigcommerce.beans.CsvBean;
 import com.bigcommerce.beans.NamedColumnInputBean;
 import com.bigcommerce.beans.NamedColumnOutputBean;
 
@@ -111,30 +109,12 @@ public class Transformers {
 			rule.setItemType("Rule");
 			rule.setProductCodeSKU(productId+"-"+weight+"L");
 			BigDecimal priceBasedOnWeight  = unitPrice.multiply(new BigDecimal(weight));
-			rule.setPrice("[FIXED]"+convertTo99Cents(priceBasedOnWeight));
+			rule.setPrice("[FIXED]"+priceBasedOnWeight);
 			rules.add(rule);			
 		}
 		
 		return rules;
 		
 	}
-	
-	private static String convertTo99Cents(BigDecimal price) {
-		return price.setScale(0, BigDecimal.ROUND_HALF_UP).subtract(new BigDecimal("0.01")).toString();
-
-		
-	}
-	
-//	public static void main(String[] args) {
-//		BigDecimal price = new BigDecimal("12.61");
-//		
-//		//price.setScale(2, BigDecimal.ROUND_CEILING);
-//		
-//		
-//		System.out.println(price.setScale(0, BigDecimal.ROUND_HALF_UP).subtract(new BigDecimal("0.01")));
-//		
-//		
-//		
-//	}
 
 }

@@ -44,5 +44,19 @@ public class BusinessRules {
 		return productListWithRulesSkus;
 		
 	}
+	
+//	public static void main(String[] args) {
+//		BigDecimal price = new BigDecimal("13.22222"); 
+//		BigDecimal weight = new BigDecimal("22");
+//		
+//		BigDecimal unitPrice = price.divide(weight,2, BigDecimal.ROUND_HALF_UP);
+//		System.out.println("The unit price is "+ unitPrice);
+//		
+//		BigDecimal priceBasedOnWeight  = unitPrice.multiply(new BigDecimal("3"));
+//		System.out.println("The price based on weight without modification is "+ priceBasedOnWeight);
+//		
+//		
+//	}
+
 
 }
