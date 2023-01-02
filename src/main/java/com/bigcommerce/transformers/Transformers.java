@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.bigcommerce.beans.NamedColumnInputBean;
 import com.bigcommerce.beans.NamedColumnOutputBean;
+import com.bigcommerce.constants.OptionsConstants;
 
 public class Transformers {
 	
@@ -84,32 +85,43 @@ public class Transformers {
 		
 	}
 
-	public static List<NamedColumnOutputBean> createSkus(String productId, String range) {
+	public static List<NamedColumnOutputBean> createSkus(String productId, String range, String weightType) {
 		List<String> ranges = new ArrayList<>(Arrays.asList(range.split(",")));
 		List<NamedColumnOutputBean> skus = new ArrayList<>();
 		//create Skus
 		for(String weight: ranges) {
 			NamedColumnOutputBean sku = new NamedColumnOutputBean();
-			sku.setItemType("SKU");
-			sku.setProductName("[S]Weight lb="+weight+" LB");
-			sku.setProductCodeSKU(productId+"-"+weight+"L");
+			sku.setItemType(OptionsConstants.SKU);
+			if(weightType.equalsIgnoreCase(OptionsConstants.WEIGHT_TYPE_LB)) {
+				sku.setProductName(OptionsConstants.WEIGHT_PRODUCT_NAME_LB+weight+" LB");
+				sku.setProductCodeSKU(productId+"-"+weight+"L");
+			}else if(weightType.equalsIgnoreCase(OptionsConstants.WEIGHT_PRODUCT_NAME_OZ)) {
+				sku.setProductName(OptionsConstants.WEIGHT_PRODUCT_NAME_OZ+weight+" Oz");
+				sku.setProductCodeSKU(productId+"-"+weight+"O");
+			}
+			
 			skus.add(sku);			
 		}
 		
 		return skus;
 	}
 	
-	public static List<NamedColumnOutputBean> createRules(String productId, String range, BigDecimal unitPrice){
+	public static List<NamedColumnOutputBean> createRules(String productId, String range, BigDecimal unitPrice, String weightType){
 		List<String> ranges = new ArrayList<>(Arrays.asList(range.split(",")));
 		List<NamedColumnOutputBean> rules = new ArrayList<>();
 		
 		//create rules
 		for(String weight: ranges) {
 			NamedColumnOutputBean rule = new NamedColumnOutputBean();
-			rule.setItemType("Rule");
-			rule.setProductCodeSKU(productId+"-"+weight+"L");
+			rule.setItemType(OptionsConstants.RULE);
+			if(weightType.equalsIgnoreCase(OptionsConstants.WEIGHT_TYPE_LB)) {
+				rule.setProductCodeSKU(productId+"-"+weight+"L");
+			}else if (weightType.equalsIgnoreCase(OptionsConstants.WEIGHT_PRODUCT_NAME_OZ)) {
+				rule.setProductCodeSKU(productId+"-"+weight+"O");
+			}
+			
 			BigDecimal priceBasedOnWeight  = unitPrice.multiply(new BigDecimal(weight));
-			rule.setPrice("[FIXED]"+priceBasedOnWeight);
+			rule.setPrice(OptionsConstants.PRICE_TYPE_FIXED+priceBasedOnWeight);
 			rules.add(rule);			
 		}
 		

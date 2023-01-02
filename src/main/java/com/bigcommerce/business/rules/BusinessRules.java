@@ -7,7 +7,7 @@ import java.util.List;
 import com.bigcommerce.beans.CsvBean;
 import com.bigcommerce.beans.NamedColumnInputBean;
 import com.bigcommerce.beans.NamedColumnOutputBean;
-import com.bigcommerce.constants.ModifierConstants;
+import com.bigcommerce.constants.OptionsConstants;
 import com.bigcommerce.transformers.Transformers;
 
 public class BusinessRules {
@@ -16,8 +16,8 @@ public class BusinessRules {
 		List<CsvBean> outputCsvBeans = new ArrayList<>();
 		for(CsvBean csvBean: csvBeans) {
 			NamedColumnInputBean inputBean = (NamedColumnInputBean)csvBean;
-			if(inputBean.getWeightType().equalsIgnoreCase(ModifierConstants.WEIGHT_TYPE_LB)) {
-				outputCsvBeans.addAll(processWeightTypeLB(inputBean));
+			if(inputBean.getWeightType().equalsIgnoreCase(OptionsConstants.WEIGHT_TYPE_LB)) {
+				outputCsvBeans.addAll(process(inputBean));
 			}
 			
 		}		
@@ -26,7 +26,7 @@ public class BusinessRules {
 	}
 	
 	
-	private List<NamedColumnOutputBean> processWeightTypeLB(NamedColumnInputBean inputBean){
+	private List<NamedColumnOutputBean> process(NamedColumnInputBean inputBean){
 		List<NamedColumnOutputBean> productListWithRulesSkus = new ArrayList<>();
 		
 		BigDecimal price = new BigDecimal(inputBean.getPrice()); 
@@ -36,9 +36,9 @@ public class BusinessRules {
 		
 		NamedColumnOutputBean primaryProduct = Transformers.convertMainProduct(inputBean);
 		productListWithRulesSkus.add(primaryProduct);
-		List<NamedColumnOutputBean> createSkus = Transformers.createSkus(inputBean.getProductId(), inputBean.getRange());
+		List<NamedColumnOutputBean> createSkus = Transformers.createSkus(inputBean.getProductId(), inputBean.getRange(), inputBean.getWeightType());
 		productListWithRulesSkus.addAll(createSkus);
-		List<NamedColumnOutputBean> createRules = Transformers.createRules(inputBean.getProductId(), inputBean.getRange(), unitPrice);
+		List<NamedColumnOutputBean> createRules = Transformers.createRules(inputBean.getProductId(), inputBean.getRange(), unitPrice, inputBean.getWeightType());
 		productListWithRulesSkus.addAll(createRules);
 		
 		return productListWithRulesSkus;
